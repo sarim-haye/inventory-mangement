@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}For Sale Items{% endblock %}
+
+{% block content %}
+  <h2 class="mt-4 mb-4">For Sale Items</h2>
+
+  <!-- For Sale Items Table -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Item Name (alphabetical order)</th>
+        <th>Total Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grouped_item in grouped_items %}
+        <tr>
+          <td>{{ grouped_item.item_name }}</td>
+          <td>{{ grouped_item.total_quantity }}</td>
+          <td>
+            <form method="post" action="{{ url_for('views.sale_made', item_id=grouped_item.item_id) }}">
+                <button type="submit" class="btn btn-success">Sale Made</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

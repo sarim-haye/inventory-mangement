@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+  <h2 class="mt-4 mb-4">Inventory Management</h2>
+
+  <!-- Add Item to Inventory Form -->
+  <form method="POST" action="{{ url_for('views.inventory') }}" class="mb-4">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="itemSelect">Item Name</label>
+        <select class="form-control" id="itemSelect" name="itemSelect" required>
+          {% for item in items %}
+            <option value="{{ item.id }}">{{ item.itemName }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="quantity">Quantity</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success">Add to Inventory</button>
+  </form>
+
+  <!-- Display Items in Inventory with Delete Buttons -->
+  <h3 class="mt-4 mb-4">Items in Inventory</h3>
+  {% for inventory_item in inventory_items %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ inventory_item.item.itemName }}</h5>
+        <p class="card-text">
+          Quantity: {{ inventory_item.quantity }} |
+          Price: £{{ "{:.2f}".format(inventory_item.item.price) if inventory_item.item and inventory_item.item.price is not none else 'N/A' }} |
+          Manufacturer: {{ inventory_item.item.manufacturer }}
+        </p>
+        <form method="POST" action="{{ url_for('views.delete_item_from_inventory') }}" class="d-inline">
+          <input type="hidden" name="deleteInventoryItemID" value="{{ inventory_item.id }}">
+          <button type="submit" class="btn btn-danger">Delete from Inventory</button>
+        </form>
+
+        <!-- Quantity Reduction Form -->
+        <form method="POST" action="{{ url_for('views.reduce_quantity') }}" class="d-inline">
+          <div class="form-row align-items-center">
+            <div class="col-auto">
+              <label class="sr-only" for="quantity">Quantity</label>
+              <input type="number" class="form-control mb-2" id="quantity" name="quantity" placeholder="Reduce Quantity" required>
+            </div>
+            <div class="col-auto">
+              <input type="hidden" name="itemID" value="{{ inventory_item.item.id }}">
+              <button type="submit" class="btn btn-secondary mb-2">Reduce Quantity</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

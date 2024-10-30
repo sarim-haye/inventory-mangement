@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+  <form method="POST">
+    <h3 align="center">Sign Up</h3>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Enter email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        placeholder="Enter first name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="jobRole">Job Role</label>
+      <select class="form-control" id="jobRole" name="jobRole" required>
+              <option value="manager">Manager</option>
+              <option value="senior_staff">Senior Staff</option>
+              <option value="general_staff">General Staff</option>
+          {% if current_user.job_role == 'manager' %}
+              <option value="manager">Manager</option>
+              <option value="senior_staff">Senior Staff</option>
+              <option value="general_staff">General Staff</option>
+          {% elif current_user.job_role == 'senior_staff' %}
+              <option value="senior_staff">Senior Staff</option>
+              <option value="general_staff">General Staff</option>
+          {% else %}
+              <option value="general_staff">General Staff</option>
+          {% endif %}
+      </select>
+  </div>
+  
+
+    <div class="form-group">
+      <label for="password1">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password1"
+        name="password1"
+        placeholder="Enter password"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password2">Password (Confirm)</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password2"
+        name="password2"
+        placeholder="Confirm password"
+        required
+      />
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Calculations Page{% endblock %}
+
+{% block content %}
+  <h2 class="mt-4 mb-4">Calculations Page</h2>
+
+  <div class="mt-4">
+    <h4>Options:</h4>
+    <ul>
+      <li><a href="{{ url_for('views.demand_page') }}">Demand</a></li>
+      <li><a href="{{ url_for('views.lead_time_page') }}">Lead Time</a></li> <!-- Added Lead Time button -->
+    </ul>
+  </div>
+{% endblock %}

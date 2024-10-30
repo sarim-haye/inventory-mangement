@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Promotion
+{% endblock %}
+
+{% block content %}
+  <h1>Promotion</h1>
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Email</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Job Role</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in general_staff_users %}
+          <tr>
+            <td>{{ user.email }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.job_role }}</td>
+            <td>
+              <form action="{{ url_for('views.promote_user') }}" method="POST">
+                <input type="hidden" name="email" value="{{ user.email }}">
+                <button type="submit" class="btn btn-info">Promote</button>
+            </form>
+            
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

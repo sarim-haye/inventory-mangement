@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Transfer Items{% endblock %}
+
+{% block content %}
+<h2 class="mt-4 mb-4">Transfer Items</h2>
+
+<!-- Inventory Table -->
+<h3 class="mt-4 mb-2">Inventory</h3>
+<form method="post" action="{{ url_for('views.transfer') }}">
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity Available</th>
+                <th>Quantity to Transfer</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inventory_item in inventory_items %}
+            <tr>
+                <td>{{ inventory_item.item.itemName }}</td>
+                <td>{{ inventory_item.quantity }}</td>
+                <td>
+                    <input type="number" name="quantity_{{ inventory_item.id }}" value="1" min="1">
+                </td>
+                <td>
+                    <label>
+                        <input type="checkbox" name="selectedItems" value="{{ inventory_item.id }}">
+                    </label>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Transfer Button -->
+    <button type="submit" class="btn btn-primary">Add to Selected Items</button>
+</form>
+
+
+
+<!-- Selected Items Table -->
+<h3 class="mt-4 mb-2">Selected Items</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Quantity to Transfer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for selected_item in selected_items %}
+        <tr>
+            <td>{{ selected_item['inventory_item'].item.itemName }}</td>
+            <td>{{ selected_item['quantity'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Transfer to For Sale Button -->
+<form method="post" action="{{ url_for('views.transfer_to_for_sale') }}">
+    {% for selected_item in selected_items %}
+        <input type="hidden" name="selectedItems" value="{{ selected_item['inventory_item'].id }}">
+        <input type="hidden" name="quantity_{{ selected_item['inventory_item'].id }}" value="{{ selected_item['quantity'] }}">
+    {% endfor %}
+    <button type="submit" class="btn btn-success mt-4">Transfer to For Sale</button>
+</form>
+
+{% endblock %}

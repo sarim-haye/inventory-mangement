@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+    <label for="monday">Monday:</label>
+    <input type="number" name="monday" id="monday"><br>
+    
+    <label for="tuesday">Tuesday:</label>
+    <input type="number" name="tuesday" id="tuesday"><br>
+    
+    <label for="wednesday">Wednesday:</label>
+    <input type="number" name="wednesday" id="wednesday"><br>
+    
+    <label for="thursday">Thursday:</label>
+    <input type="number" name="thursday" id="thursday"><br>
+    
+    <label for="friday">Friday:</label>
+    <input type="number" name="friday" id="friday"><br>
+    
+    <label for="saturday">Saturday:</label>
+    <input type="number" name="saturday" id="saturday"><br>
+    
+    <label for="sunday">Sunday:</label>
+    <input type="number" name="sunday" id="sunday"><br>
+  
+    <label for="current_stock">Current Stock Quantity:</label>
+    <input type="number" name="current_stock" id="current_stock"><br>
+  
+    <button type="submit">Submit</button>
+    <!-- Add an exit button to redirect back to calculations.html -->
+    <a href="{{ url_for('views.calculations_page') }}" class="btn btn-secondary">Exit</a>
+</form>
+
+{% if average_demand_per_day is defined %}
+    <p>Average Demand per Day: {{ average_demand_per_day }}</p>
+    <p>{{ restock_recommendation }}</p>
+{% endif %}
+{% endblock %}

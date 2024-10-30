@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+    <label for="order_date">Order Date:</label>
+    <input type="date" name="order_date" id="order_date"><br>
+    
+    <label for="estimated_arrival_date">Estimated Arrival Date:</label>
+    <input type="date" name="estimated_arrival_date" id="estimated_arrival_date"><br>
+  
+    <label for="average_demand_per_day">Average Demand per Day:</label>
+    <input type="number" name="average_demand_per_day" id="average_demand_per_day"><br>
+  
+    <label for="buffer_stock">Buffer Stock Quantity:</label>
+    <input type="number" name="buffer_stock" id="buffer_stock"><br>
+
+    <label for="current_stock">Current Stock Quantity:</label>
+    <input type="number" name="current_stock" id="current_stock"><br>
+  
+    <button type="submit" name="calculate">Calculate Difference</button>
+</form>
+
+{% if difference_in_days is defined %}
+    <p>Difference in Days: {{ difference_in_days }}</p>
+    <p>Current Stock Expected to Run Out: {{ current_stock_run_out }}</p>
+    <p>Recommendation: {{ recommendation }}</p>
+    <p>Order Stock {{ order_recommendation }} days before expected arrival to avoid stockouts.</p>
+{% endif %}
+{% endblock %}

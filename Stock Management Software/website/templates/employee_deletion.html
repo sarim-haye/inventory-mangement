@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Employee Deletion{% endblock %}
+
+{% block content %}
+  <h3 align="center">Employee Deletion</h3>
+  <ul class="list-group">
+    {% for user in users %}
+      <li class="list-group-item">
+        {{ user.first_name }} - {{ user.email }} - {{user.job_role}}
+        
+        {% if current_user.is_authenticated and current_user.job_role == 'manager' %}
+          <form method="POST" style="display: inline-block;" onsubmit="return confirmDelete('{{ user.first_name }}');">
+            <button type="submit" class="btn btn-danger" name="delete" value="{{ user.id }}">Delete</button>
+          </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+    function confirmDelete(employeeName) {
+      return confirm('Are you sure you want to delete employee ' + employeeName + '?');
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Items{% endblock %}
+
+{% block content %}
+  <h2 class="mt-4 mb-4">Item Management</h2>
+
+  <!-- Add Item Form -->
+  <form method="POST" action="{{ url_for('views.items') }}" class="mb-4">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="itemName">Item Name</label>
+        <input type="text" class="form-control" id="itemName" name="itemName" required>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="price">Price</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">£</span>
+          </div>
+          <input type="text" class="form-control" id="price" name="price" required>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="manufacturer">Manufacturer</label>
+        <input type="text" class="form-control" id="manufacturer" name="manufacturer" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Item</button>
+  </form>
+
+  <!-- Display Existing Items with Delete Buttons -->
+<h3 class="mt-4 mb-4">Existing Items</h3>
+{% for item in items %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ item.itemName }}</h5>
+      <p class="card-text">
+        Price: £{{ "{:.2f}".format(item.price) }} |
+        Manufacturer: {{ item.manufacturer }} |
+        Created By: {{ item.user_relationship.first_name if item.user_relationship else 'Unknown' }}
+      </p>
+      <form method="POST" action="{{ url_for('views.delete_item') }}" class="d-inline">
+        <input type="hidden" name="deleteItemName" value="{{ item.itemName }}">
+        <input type="hidden" name="deleteManufacturer" value="{{ item.manufacturer }}">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}
